@@ -1,0 +1,34 @@
+using System;
+using System.Security.Permissions;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using System.Threading;
+namespace HelloApp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var service = ChromeDriverService.CreateDefaultService("e:/New");
+            service.HideCommandPromptWindow = true;
+            IWebDriver web = new ChromeDriver(service);
+            for (int i = 80; i < 250; i++)
+            {
+                for (int j = 80; j < 200; j++)
+                {
+                    web.Url = @"http://3.64.240.161";
+                    Thread.Sleep(1000);
+                    web.FindElement(By.XPath(@".//div[@class='form-group']/input[@id='exampleInputSAD']")).SendKeys(i.ToString());
+                    web.FindElement(By.XPath(@".//div[@class='form-group']/input[@id='exampleInputDAD']")).SendKeys(j.ToString());
+                    web.FindElement(By.XPath("//button[@id='submitBtn']")).Click();
+                    Thread.Sleep(2000);
+                    var res = web.FindElement(By.XPath("//p[@id='resultText']"));
+                    Console.WriteLine(res.Text + " " + i.ToString() + " " + j.ToString());
+                    Thread.Sleep(1000);
+                    web.FindElement(By.XPath("//button[@class='close']")).Click();
+                }
+            }
+               
+        }
+    }
+}
